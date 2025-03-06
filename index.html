@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff; /* Light background */
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .welcome {
+            display: none;
+            font-size: 36px; /* Larger font size for the welcome message */
+            color: #4CAF50; /* Green color */
+            animation: fadeIn 2s; /* Fade-in animation */
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .name-input {
+            display: block;
+            margin: 20px auto;
+        }
+        .calculator {
+            display: none;
+            margin-top: 20px;
+        }
+        input[type="text"], input[type="date"] {
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #4CAF50;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .celebration {
+            display: none;
+            margin-top: 20px;
+            font-size: 24px;
+            color: #fff;
+            background-color: #ffcc00; /* Bright yellow background for celebration */
+            padding: 20px;
+            border-radius: 10px;
+            animation: fadeIn 2s; /* Fade-in animation for celebration */
+        }
+        .confetti {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: url('https://example.com/confetti.png') repeat; /* Replace with a confetti image URL */
+            opacity: 0.5;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="name-input">
+        <input type="text" id="userName" placeholder="Enter your name">
+        <button onclick="showWelcome()">Submit</button>
+    </div>
+    <div class="welcome" id="welcomeMessage"></div>
+    <div class="calculator" id="ageCalculator">
+        <h2>Age Calculator</h2>
+        <input type="date" id="birthDate" placeholder="Enter your birth date">
+        <button onclick="calculateAge()">Calculate Age</button>
+        <div id="result" class="celebration"></div> <!-- Result div with celebration style -->
+    </div>
+    <div class="confetti"></div> <!-- Confetti background -->
+</div>
+
+<script>
+    let userName = ''; // Variable to store the user's name
+
+    function showWelcome() {
+        userName = document.getElementById('userName').value; // Get the user's name
+        if (userName) {
+            document.getElementById('welcomeMessage').innerText = `Welcome to the Age Calculator, ${userName}!`;
+            document.getElementById('welcomeMessage').style.display = 'block';
+            document.getElementById('ageCalculator').style.display = 'block';
+            setTimeout(function() {
+                document.getElementById('welcomeMessage').style.display = 'none';
+            }, 3000);
+        } else {
+            alert("Please enter your name.");
+        }
+    }
+
+    function calculateAge() {
+        const birthDate = new Date(document.getElementById('birthDate').value);
+        const today = new Date();
+        
+        let years = today.getFullYear() - birthDate.getFullYear();
+        let months = today.getMonth() - birthDate.getMonth();
+        let days = today.getDate() - birthDate.getDate();
+
+        // Adjust for negative days
+        if (days < 0) {
+            months--;
+            days += new Date(today.getFullYear(), today.getMonth(), 0).getDate(); // Get last day of previous month
+        }
+
+        // Adjust for negative months
+        if (months < 0) {
+            years--;
+            months += 12;
+        }
+
+        document.getElementById('result').innerText = `🎉 Hey Hi! ${userName}! Your age is ${years} years, ${months} months, and ${days} days! 🎉`;
+        document.getElementById('result').style.display = 'block'; // Show the result
+    }
+</script>
+
+</body>
+</html>
